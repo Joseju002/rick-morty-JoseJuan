@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API de Rick y Morty</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/api.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="text-center">
+            <img id="logo" src="images/logo.png" alt="logo">
+        </div>
+        <div class="row">
+            <div class="container mt-3">
+                <div class="d-flex align-items-center">
+                    <select name="paginas" id="pages" class="form-control me-2"></select>
+                    <button type="button" class="btn bg-primary text-white me-2" id="busqueda">Buscar</button>
+                    <button type="button" class="btn bg-success text-white" id="filtrar" data-bs-toggle="collapse"
+                        data-bs-target="#filtros"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="filtros" class="collapse">
+                    <form>
+                        <div class="text-center mt-3">
+                            <label for="genero"><strong>Género: </strong></label>
+                            <input type="radio" id="masculino" name="genero" value="masc" />
+                            <label for="masc">Masculino</label>
+                            <input type="radio" id="femenino" name="genero" value="fem" />
+                            <label for="fem">Femenino</label>
+                            <input type="radio" id="desconocido" name="genero" value="desc" />
+                            <label for="?">?</label>
+                            <br>
+                            <label class="mt-2" for="estado"><strong>Estado: </strong></label>
+                            <input type="radio" id="vivo" name="estado" value="vivo" />
+                            <label for="vivo">Vivo </label>
+                            <input type="radio" id="muerto" name="estado" value="muerto" />
+                            <label for="muerto">Muerto </label>
+                            <input type="radio" id="unknown" name="estado" value="unk" />
+                            <label for="desconocido">Desconocido </label>
+                            <br>
+                            <input type="reset" class="btn bg-danger text-white mt-2" value="Eliminar filtros">
+                            <input type="button" class="btn bg-primary text-white mt-2" value="Filtrar esta página" id="aplicarFiltros">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <div id="cargando" class="text-center mt-4"></div>
+                <div id="personajes" class="row row-cols-1 row-cols-md-3 g-4 mt-3"></div>
+                <div id="mensajeError" class="text-white text-center mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
