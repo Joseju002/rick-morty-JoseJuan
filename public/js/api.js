@@ -120,6 +120,7 @@ $(document).ready(function () {
         //TRATAR LA RESPUESTA QUE ME DA EL SERVIDOR
         promise.always(function (data) {
             personajes = data; //Aquí almacenaremos los personajes obtenidos
+            guardarBaseDatos("personajes", data);
             mostrarPersonajes(data);
         });
     });
@@ -136,4 +137,55 @@ $(document).ready(function () {
             aplicarFiltros();
         }
     });
+
+    function guardarBaseDatos(nombreDB, data) {
+        //Aquí creamos nuestra base de datos local
+        var storeName = nombreDB;
+        var request = indexedDB.open("BDPersonajes", 1);
+
+        request.onupgradeneeded = function (event) {
+            var db = event.target.result;
+
+            //A este if solo entra si BDPersonajes no existe
+            if (!db.objectStoreNames.contains(storeName)) {
+                //Creamos el objeto en el que se almacena la información
+                var objectStore = db.createObjectStore(storeName, { autoIncrement: true });
+            }
+        }
+
+        //Si todo va bien
+        request.onsuccess = function (event) {
+            var db = event.target.result;
+
+            var transaction = db.transaction([storeName], "readwrite");
+            var objectStore = transaction.objectStore(storeName);
+
+            // En este bucle es donde almacenamos cada personaje
+            data.forEach(function (personaje, index) {
+                var request = objectStore.add(personaje);
+
+                request.onsuccess = function (event) {
+                    console.log("Personaje guardado exitosamente");
+                }
+
+                request.onerror = function (event) {
+                    console.error("Error al guardar el personaje", event.target.error);
+                }
+            });
+
+            //Aquí tratamos los errores. Hacemos la transacción y, si falla, el onsuccess peta. Es decir, o lo hace o no lo hace
+            transaction.oncomplete = function () {
+                console.log("Todos los personajes fueron guardados exitosamente.")
+            }
+
+            transaction.onerror = function () {
+                console.log("Se ha producido un error en la transacción", event.target.error)
+            }
+        };
+
+        //Si sale mal
+        request.onerror = function (event) {
+            console.error("Error al abrir la base de datos", event.target.error)
+        }
+    }
 });
